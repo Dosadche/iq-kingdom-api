@@ -6,6 +6,7 @@ const User = new mongoose.Schema({
     password: { type: String, required: true },
     hits: { type: Number, default: 5 },
     hp: { type: Number, default: 5 },
+    xp: { type: Number, default: 0 },
     isAdmin: { type: Boolean, default: false },
 });
 
