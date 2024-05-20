@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import authRouter from './modules/auth/auth.route.js';
 import questionsRouter from './modules/questions/questions.route.js';
 import usersRouter from './modules/users/users.route.js';
+import fightsRouter from './modules/fights/fights.route.js';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/questions', questionsRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/fights', fightsRouter);
 
 async function run() {
     try {
