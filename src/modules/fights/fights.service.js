@@ -7,6 +7,25 @@ class FightsService {
         this.crudService = new CRUDService(Fight);
     }
 
+    async getAll(queryParams, params) {
+        let searchParams = {}
+        if (queryParams.status === 'finished') {
+            searchParams = { isFinished: true };
+        } else if (queryParams.status === 'unfinished') {
+            searchParams = { isFinished: false };
+        }
+        if (params.userId) {
+            searchParams = {
+                ...searchParams,
+                $or: [
+                    { defenderId: params.userId },
+                    { agressorId: params.userId }
+                ]
+            };
+        }
+        return await Fight.find(searchParams);
+    }
+
     async attack(attack, defenderId) {
         return await this.crudService.create({ ...attack, defenderId });
     }
