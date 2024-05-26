@@ -1,6 +1,7 @@
 import CRUDService from "../../core/services/crud.service.js";
 import Fight from "../../models/fights.schema.js";
 import usersService from "../users/users.service.js";
+import notificationsService from "../notifications/notifications.service.js";
 
 class FightsService {
     constructor() {
@@ -51,8 +52,11 @@ class FightsService {
             await usersService.rewardXp(winnerId, correctAnswers);
             const loserId = winnerId === fight.agressorId ? fight.defenderId : fight.agressorId;
             await usersService.updateLoser(loserId);
+            await notificationsService.sendWinnerNotification(winnerId, loserId);
+            await notificationsService.sendLoserNotification(loserId, winnerId);
         } else {
-            await usersService.handleDraft(fight)
+            await usersService.handleDraft(fight);
+            await notificationsService.sendDraftNotification(fight.agressorId, fight.defenderId);
         }
     }
 
