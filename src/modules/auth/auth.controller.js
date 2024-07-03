@@ -6,7 +6,7 @@ class AuthController {
             const registeredUser = await authService.register(req.body);
             res.status(201).json(registeredUser);
         } catch (error) {
-            res.json(error);
+            res.status(error.status).json(error);
         }
     }
 
@@ -15,7 +15,7 @@ class AuthController {
             const loggedUser = await authService.login(req.body);
             res.status(200).json(loggedUser);
         } catch (error) {
-            res.json(error);
+            res.status(error.status).json(error);
         }
     }
 

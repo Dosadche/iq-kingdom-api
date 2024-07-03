@@ -1,5 +1,6 @@
 import express from 'express';
-import configs from '../configs.json' assert { type: "json" };
+import configs from '../configs.json' with { type: "json" };
+import cors from 'cors';
 import mongoose from 'mongoose';
 import authRouter from './modules/auth/auth.route.js';
 import questionsRouter from './modules/questions/questions.route.js';
@@ -9,6 +10,7 @@ import notiicationsRouter from './modules/notifications/notifications.route.js';
 
 const app = express();
 
+app.use(cors(configs.security.corsOptions));
 app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/questions', questionsRouter);

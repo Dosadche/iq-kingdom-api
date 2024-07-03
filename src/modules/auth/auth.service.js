@@ -1,7 +1,7 @@
 import User from "../../models/user.schema.js";
 import RefreshToken from "../../models/refresh-token-schema.js";
 import bcrypt from "bcrypt";
-import configs from "../../../configs.json" assert { type: "json" };
+import configs from "../../../configs.json" with { type: "json" };
 import jwt from "jsonwebtoken";
 
 class AuthService {
@@ -10,6 +10,9 @@ class AuthService {
     }
 
     async register(user) {
+        if (!user.password || !user.name || !user.email) {
+            throw Object.assign(new Error, { message: 'Email or password are incorrect', status: 401 });
+        }
         const hashedPassword = await bcrypt.hash(user.password, configs.security.salt ?? 10);
         const registeredUser = await User.create({
             ...user,
