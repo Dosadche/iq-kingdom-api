@@ -28,7 +28,10 @@ class AuthController {
         }
     }
 
-    async logout(req, res) {}
+    //TODO: Add logout functionallity
+    async logout(req, res) {
+        res.status(200).json('Logged Out Successfully');
+    }
 }
 
 export default new AuthController();

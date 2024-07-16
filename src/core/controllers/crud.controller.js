@@ -12,7 +12,7 @@ class CRUDController {
             const list = await this.crudService.getAll();
             res.status(200).json(list);
         } catch (error) {
-            res.json(error);
+            res.status(error.status).json(error);
         }
     }
 

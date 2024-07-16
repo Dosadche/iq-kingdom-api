@@ -10,6 +10,11 @@ class UsersService extends CRUDService{
         throw new Error('Method not implemented');
     }
 
+    async getAll() {
+        const users = await User.find();
+        return this.mapUsers(users);;
+    }
+
     async rewardXp(userId, correctAnswers, isDraft = false) {
         const user = await this.getById(userId);
         let xp = user.xp + (correctAnswers * 50);
@@ -34,6 +39,15 @@ class UsersService extends CRUDService{
     async handleDraft(fight) {
         await this.rewardXp(fight.agressorId, fight.agressorCorrectAnswers, true);
         await this.rewardXp(fight.defenderId, fight.defenderCorrectAnswers, true);
+    }
+
+    mapUsers(users) {
+        const mappedUsers = users.map((user) => {
+            const mappedUser = user.toObject({ virtuals: true });
+            delete mappedUser['password'];
+            return mappedUser;
+        });
+        return mappedUsers;
     }
 }
 
