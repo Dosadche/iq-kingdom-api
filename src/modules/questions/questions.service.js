@@ -12,7 +12,7 @@ class QuestionsService extends CRUDService {
         const randomizedQuestions = [];
         do {
             const questionIndex = randomInt(0, questions.length);
-            randomizedQuestions.push(questions[questionIndex]);
+            randomizedQuestions.push(questions[questionIndex].toObject({ virtuals: true }));
             questions.splice(questionIndex, 1);
         } while (randomizedQuestions.length < 5);
         return randomizedQuestions;
