@@ -5,7 +5,9 @@ class CRUDService {
 
     async getAll() {
         try {
-            return await this.schema.find();
+            const items = await this.schema.find();
+            return items.map((item) => 
+                item.toObject({ virtuals: true })).reverse();
         } catch (error) {
             throw Object.assign(new Error, { status: 404, message: error.message });
         }

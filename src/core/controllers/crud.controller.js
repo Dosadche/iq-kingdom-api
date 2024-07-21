@@ -21,7 +21,7 @@ class CRUDController {
             const entity = await this.crudService.getById(req.params?.id);
             res.status(200).json(entity);
         } catch (error) {
-            res.json(error);
+            res.status(error.status).json(error);
         }
     }
 

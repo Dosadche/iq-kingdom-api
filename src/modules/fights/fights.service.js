@@ -24,7 +24,8 @@ class FightsService {
                 ]
             };
         }
-        return await Fight.find(searchParams);
+        const fights = await Fight.find(searchParams);
+        return fights.map((f) => f.toObject({ virtuals: true })).reverse();
     }
 
     async attack(attack, defenderId) {
