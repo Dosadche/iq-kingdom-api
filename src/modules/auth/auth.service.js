@@ -17,6 +17,7 @@ class AuthService {
         const registeredUser = await User.create({
             ...user,
             password: hashedPassword,
+            lastRevival: new Date(),
         });
         return this.mapUser(registeredUser);
     }

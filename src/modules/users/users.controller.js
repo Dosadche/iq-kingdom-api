@@ -6,6 +6,15 @@ class UsersController extends CRUDController {
         super(usersService);
     }
 
+    async revive(req, res) {
+        try {
+            const user = await usersService.revive(req.params.id);
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(error.status).json(error);
+        }   
+    }
+
     create(_req, _res) {
         throw new Error('Method not implemented');
     }

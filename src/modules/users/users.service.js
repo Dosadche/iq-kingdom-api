@@ -15,6 +15,21 @@ class UsersService extends CRUDService{
         return this.mapUsers(users);;
     }
 
+    async revive(userId) {
+        const user = await this.getById(userId);
+        const timeSinceLastRevival = 
+            Math.abs(new Date().getMilliseconds() - new Date(user.lastRevival).getMilliseconds()) / (1000 * 60 * 60);
+        if (timeSinceLastRevival >= 24 || !user.lastRevival) {
+            return await this.update(userId, {
+                ...user.toObject({ virtuals: true }),
+                lastRevival: new Date(),
+                hp: 5,
+            });
+        } else {
+            throw Object.assign(new Error, { status: 400, message: 'Not enough time since last revival' });
+        }
+    }
+
     async rewardXp(userId, correctAnswers, isDraft = false) {
         const user = await this.getById(userId);
         let xp = user.xp + (correctAnswers * 50);
