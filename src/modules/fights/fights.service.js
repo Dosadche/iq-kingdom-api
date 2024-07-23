@@ -1,4 +1,5 @@
 import CRUDService from "../../core/services/crud.service.js";
+import User from "../../models/user.schema.js"
 import Fight from "../../models/fights.schema.js";
 import usersService from "../users/users.service.js";
 import notificationsService from "../notifications/notifications.service.js";
@@ -29,6 +30,10 @@ class FightsService {
     }
 
     async attack(attack, defenderId) {
+        const agressor = await User.findById(attack.agressorId);
+        if (agressor.hp === 0) {
+            throw Object.assign(new Error, { status: 400, message: 'Out of lives' });
+        }
         return await this.crudService.create({ ...attack, defenderId });
     }
 
