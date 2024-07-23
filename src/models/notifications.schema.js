@@ -6,7 +6,7 @@ const Notification = new mongoose.Schema({
     type: { type: String, required: true },
     userId: { type: String, required: true },
     senderId: { type: String, required: true },
-    isRead: { type: Boolean, required: true, default: false }
+    isRead: { type: Boolean, required: true }
 });
 
 export default mongoose.model('Notification', Notification);

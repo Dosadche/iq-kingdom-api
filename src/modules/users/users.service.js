@@ -18,7 +18,7 @@ class UsersService extends CRUDService{
     async revive(userId) {
         const user = await this.getById(userId);
         const timeSinceLastRevival = 
-            Math.abs(new Date().getMilliseconds() - new Date(user.lastRevival).getMilliseconds()) / (1000 * 60 * 60);
+            Math.abs(Number(new Date(user.lastRevival)) - Number(new Date())) / 36e5;
         if (timeSinceLastRevival >= 24 || !user.lastRevival) {
             return await this.update(userId, {
                 ...user.toObject({ virtuals: true }),
