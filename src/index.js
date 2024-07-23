@@ -25,7 +25,7 @@ async function run() {
             .replace('app_name', configs.appName);
         await mongoose.connect(dbUrl, configs.clientOptions);
         await mongoose.connection.db.admin().command({ ping: 1 });
-        app.listen(configs.port, () => console.log('Server started on port ' + configs.port));
+        app.listen(configs.port, () => console.log('Server started on port ' + process.env.port || configs.port));
     } catch (err) {
         console.log('ERROR HAPPENED', err);
     }
