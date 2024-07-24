@@ -1,0 +1,15 @@
+{
+    "clientOptions": {
+        "serverApi": {
+            "version": "1",
+            "strict": true,
+            "deprecationErrors": true
+        }
+    },
+    "security": {
+        "corsOptions": {
+            "origin": "http://localhost:4200",
+            "optionsSuccessStatus": 200
+        }
+    }
+}

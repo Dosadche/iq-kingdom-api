@@ -7,7 +7,9 @@ import questionsRouter from './modules/questions/questions.route.js';
 import usersRouter from './modules/users/users.route.js';
 import fightsRouter from './modules/fights/fights.route.js';
 import notiicationsRouter from './modules/notifications/notifications.route.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 app.use(cors(configs.security.corsOptions));
@@ -20,12 +22,13 @@ app.use('/api/notifications', notiicationsRouter);
 
 async function run() {
     try {
-        const dbUrl = configs.dbUrl
-            .replace('password', configs.password)
-            .replace('app_name', configs.appName);
+        const dbUrl = process.env.DB_URL
+            .replace('password', process.env.MDB_PASSWORD)
+            .replace('app_name', process.env.APP_NAME);
         await mongoose.connect(dbUrl, configs.clientOptions);
         await mongoose.connection.db.admin().command({ ping: 1 });
-        app.listen(configs.port, () => console.log('Server started on port ' + process.env.port || configs.port));
+        const port = process.env.port || configs.port;
+        app.listen(port, () => console.log('Server started on port ' + port));
     } catch (err) {
         console.log('ERROR HAPPENED', err);
     }

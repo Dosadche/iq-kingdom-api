@@ -1,7 +1,6 @@
 import User from "../../models/user.schema.js";
 import RefreshToken from "../../models/refresh-token-schema.js";
 import bcrypt from "bcrypt";
-import configs from "../../../configs.json" with { type: "json" };
 import jwt from "jsonwebtoken";
 
 class AuthService {
@@ -13,7 +12,7 @@ class AuthService {
         if (!user.password || !user.name || !user.email) {
             throw Object.assign(new Error, { message: 'Email or password are incorrect', status: 401 });
         }
-        const hashedPassword = await bcrypt.hash(user.password, configs.security.salt ?? 10);
+        const hashedPassword = await bcrypt.hash(user.password, Number(process.env.SALT) ?? 10);
         const registeredUser = await User.create({
             ...user,
             password: hashedPassword,
@@ -42,7 +41,7 @@ class AuthService {
             throw this.unauthenticatedError;
         }
         let userFromToken;
-        jwt.verify(refreshToken, configs.security.refreshTokenSecret, (error, user) => {
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
             if (error) {
                 throw this.unauthenticatedError;
             } else {
@@ -59,7 +58,7 @@ class AuthService {
     }
 
     async getJWTTokens(user) {
-        const accessToken = jwt.sign(user, configs.security.accessTokenSecret, { expiresIn: '60s' });
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60s' });
         const refreshToken = await this.getAndStoreRefreshToken(user);
         return {
             accessToken,
@@ -68,7 +67,7 @@ class AuthService {
     }
 
     async getAndStoreRefreshToken(user) {
-        const refreshToken = jwt.sign(user, configs.security.refreshTokenSecret);
+        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
         await RefreshToken.create({ refreshToken, userId: user.id });
         return refreshToken;
     }
