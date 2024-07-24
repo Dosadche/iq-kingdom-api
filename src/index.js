@@ -12,6 +12,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
 
+app.get('/', (req, res) => res.send('API works'));
+
 app.use(cors(configs.security.corsOptions));
 app.use(express.json());
 app.use('/api/auth', authRouter);

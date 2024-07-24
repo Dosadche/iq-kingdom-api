@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "postinstall": "npm rebuild",
     "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon ./src/index.js",
+    "build": "echo 'This project does not require a build step' && exit 0"
   },
   "keywords": [],
   "author": "",
