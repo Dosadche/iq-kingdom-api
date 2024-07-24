@@ -1,6 +1,6 @@
 import User from "../../models/user.schema.js";
 import RefreshToken from "../../models/refresh-token-schema.js";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 class AuthService {
@@ -12,7 +12,7 @@ class AuthService {
         if (!user.password || !user.name || !user.email) {
             throw Object.assign(new Error, { message: 'Email or password are incorrect', status: 401 });
         }
-        const hashedPassword = await bcrypt.hash(user.password, Number(process.env.SALT) ?? 10);
+        const hashedPassword = await bcryptjs.hash(user.password, Number(process.env.SALT) ?? 10);
         const registeredUser = await User.create({
             ...user,
             password: hashedPassword,
@@ -26,7 +26,7 @@ class AuthService {
         if (!userFromDb) {
             throw Object.assign(new Error, { message: 'User not found', status: 404 });
         }
-        if (await bcrypt.compare(user.password, userFromDb.password)) {
+        if (await bcryptjs.compare(user.password, userFromDb.password)) {
             const mappedUser = this.mapUser(userFromDb)
             const tokens = await this.getJWTTokens(mappedUser);
             return { ...mappedUser, ...tokens };
