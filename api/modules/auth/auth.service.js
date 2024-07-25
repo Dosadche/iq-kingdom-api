@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 class AuthService {
     get unauthenticatedError() {
-        return Object.assign(new Error, { message: 'Unauthenticated', status: 401 })
+        return Object.assign(new Error, { message: 'Unauthenticated', status: 401 });
     }
 
     async register(user) {
