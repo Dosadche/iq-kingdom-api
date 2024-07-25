@@ -8,7 +8,7 @@
     },
     "security": {
         "corsOptions": {
-            "origin": "http://localhost:4200",
+            "origin": "https://iq-kingdom.web.app",
             "optionsSuccessStatus": 200
         }
     }
